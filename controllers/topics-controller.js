@@ -1,4 +1,5 @@
-const {fetchAllTopics, fetchAllEndpoints} = require("../models/topic-model")
+const {fetchAllTopics} = require("../models/topic-model")
+const fs = require("fs/promises");
 
 const getAllTopics = (request, response, next) =>{
     fetchAllTopics().then((result)=>{
@@ -12,6 +13,13 @@ const getAllEndpoints = (request, response, next) =>{
         response.status(200).send({endpoints: result})
     })
 }
+
+const fetchAllEndpoints = () => {
+    return fs.readFile("endpoints.json").then((endpoints) => {
+      const preparedEndpoints = endpoints.toString();
+      return JSON.parse(preparedEndpoints)
+    });
+  };
 
 
 module.exports = {getAllTopics, getAllEndpoints}
