@@ -420,7 +420,7 @@ module.exports = [
     Defying history, fortune's game,
     A testament to ten Hag's command,
     That Ajax's spirit forever will stand.
-    
+      
     So let us sing a song of praise,
     For Eric ten Hag's guiding ways,
     A mastermind, a football sage,
