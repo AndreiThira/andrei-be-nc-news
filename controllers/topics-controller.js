@@ -1,4 +1,5 @@
-const {fetchAllTopics} = require("../models/topic-model")
+
+const {fetchAllTopics, fetchArticleByID} = require("../models/topic-model")
 const fs = require("fs/promises");
 
 const getAllTopics = (request, response, next) =>{
@@ -14,6 +15,15 @@ const getAllEndpoints = (request, response, next) =>{
     })
 }
 
+const getArticleByID = (request, response, next) => {
+    const articleID = request.params.article_id
+    fetchArticleByID(articleID).then((result)=>{
+        response.status(200).send({article: result})
+    })
+    .catch(next)
+}
+
+
 const fetchAllEndpoints = () => {
     return fs.readFile("endpoints.json").then((endpoints) => {
       const preparedEndpoints = endpoints.toString();
@@ -22,4 +32,4 @@ const fetchAllEndpoints = () => {
   };
 
 
-module.exports = {getAllTopics, getAllEndpoints}
+module.exports = {getAllTopics, getAllEndpoints, getArticleByID}

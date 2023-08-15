@@ -71,3 +71,40 @@ describe("GET /api", ()=>{
         })
     })
 })
+
+describe("GET /api/articles/:article_id", ()=>{
+    test("200: responds with a status of 200", ()=>{
+        return request(app).get("/api/articles/3").expect(200).then((response)=>{
+            expect(response.status).toBe(200)
+        })
+    })
+    test("200: responds with an article object, containing the following properties: author,title, article_id, body, topic, created_at, votes and article_img_url", ()=>{
+        return request(app).get("/api/articles/3").expect(200).then((response)=>{
+            expect(response.body).toEqual( {
+                article: [
+                  {
+                    article_id: 3,
+                    title: 'Eight pug gifs that remind me of mitch',
+                    topic: 'mitch',
+                    author: 'icellusedkars',
+                    body: 'some gifs',
+                    created_at: '2020-11-03T09:12:00.000Z',
+                    votes: 0,
+                    article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+                  }
+                ]
+              })
+        })
+    })
+    test("400: responds with an error message when passed an invalid article ID", ()=>{
+        return request(app).get("/api/articles/banana").expect(400).then((response)=>{
+            expect(response.body).toEqual({message: "Invalid Article ID"})
+        })
+    })
+    test("404: responds with an error message when passed a valid, but non existent article ID", ()=>{
+        return request(app).get("/api/articles/123123").expect(404).then((response)=>{
+            expect(response.body).toEqual({message: "No article found"})
+        })
+    })
+
+})
