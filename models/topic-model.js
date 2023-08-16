@@ -43,11 +43,16 @@ ORDER BY
   })
 }
 
-const fetchCommentsByArticle = (article_id) =>{
-  return db.query("SELECT * FROM COMMENTS WHERE article_id = $1 ORDER BY created_at DESC;", [article_id]).then(({rows})=>{
-    return rows;
-  })
-}
+const fetchCommentsByArticle = async (article_id) => {
+  const articleExists = await db.query("SELECT COUNT(*) FROM articles WHERE article_id = $1;", [article_id]);
+
+  if (articleExists.rows[0].count === '0') {
+    return Promise.reject({status:404, message: "Article not found"})
+  }
+
+  const comments = await db.query("SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;", [article_id]);
+  return comments.rows; 
+};
 
 
 module.exports = { fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle};

@@ -161,4 +161,14 @@ describe("GET /api/articles/:article_id/comments", ()=>{
             expect(comments).toEqual({comments: []})
         })
     })
+    test("400: responds with an error message when passed an invalid article ID", ()=>{
+        return request(app).get("/api/articles/banana/comments").expect(400).then((response)=>{
+            expect(response.body).toEqual({message: "Invalid Article ID"})
+        })
+    })
+    test("404: responds with an error message when passed a valid, but non existent article ID", ()=>{
+        return request(app).get("/api/articles/123123/comments").expect(404).then((response)=>{
+            expect(response.body).toEqual({message: "Article not found"})
+        })
+    })
     })

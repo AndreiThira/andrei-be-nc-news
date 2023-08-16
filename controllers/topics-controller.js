@@ -35,6 +35,7 @@ const getCommentsByArticle = (request, response, next) =>{
     fetchCommentsByArticle(article_ID).then((result)=>{
         response.status(200).send({comments: result})
     })
+    .catch(next)
 }
 
 
