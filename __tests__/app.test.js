@@ -103,8 +103,33 @@ describe("GET /api/articles/:article_id", ()=>{
     })
     test("404: responds with an error message when passed a valid, but non existent article ID", ()=>{
         return request(app).get("/api/articles/123123").expect(404).then((response)=>{
-            expect(response.body).toEqual({message: "No article found"})
+            expect(response.body).toEqual({message: "404 Not Found"})
         })
     })
+})
 
+describe("GET /api/articles", ()=>{
+    test("200: responds with all articles, with the following properties: author, title, article_id, topic, created_at, votes, article_img_url, comment_count", ()=>{
+        return request(app).get("/api/articles").expect(200).then((response)=>{
+            const articles = response.body.articles
+            expect(articles.length).toBeGreaterThan(0)
+            articles.forEach((article) => {
+                expect(article).toHaveProperty("author")
+                expect(article).toHaveProperty("title")
+                expect(article).toHaveProperty("article_id");
+                expect(article).toHaveProperty("topic")
+                expect(article).toHaveProperty("created_at");
+                expect(article).toHaveProperty("votes")
+                expect(article).toHaveProperty("article_img_url");
+                expect(article).toHaveProperty("comment_count");
+                expect(article).not.toHaveProperty("body")
+            });
+        })
+    })
+    test("200: articles are ordered in descending order by created_at", ()=>{
+        return request(app).get("/api/articles").then((response)=>{
+            const articles = response.body.articles
+            expect(articles).toBeSortedBy("created_at", {descending: true})
+        })
+    })
 })
