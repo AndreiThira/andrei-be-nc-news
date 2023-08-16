@@ -133,3 +133,32 @@ describe("GET /api/articles", ()=>{
         })
     })
 })
+
+describe("GET /api/articles/:article_id/comments", ()=>{
+    test("200: responds with all comments of the specified article, with the following properties:comment_id, votes, created_at, author, body, article_id", ()=>{
+        return request(app).get("/api/articles/1/comments").expect(200).then((response)=>{
+            const comments = response.body.comments
+            expect(comments.length).toBeGreaterThan(0)
+            comments.forEach((comment) => {
+                expect(comment).toHaveProperty("comment_id")
+                expect(comment).toHaveProperty("votes")
+                expect(comment).toHaveProperty("author");
+                expect(comment).toHaveProperty("body")
+                expect(comment).toHaveProperty("created_at");
+                expect(comment).toHaveProperty("article_id")
+            });
+        })
+        })
+    test("200: comments are ordered by created_at, with the most recent first ", ()=>{
+        return request(app).get("/api/articles/1/comments").expect(200).then((response)=>{
+            const comments = response.body.comments
+            expect(comments).toBeSortedBy("created_at", {descending:true})
+        })
+    }) 
+    test("200: Responds with an empty array if there are no comments for the article", ()=>{
+        return request(app).get("/api/articles/2/comments").expect(200).then((response)=>{
+            const comments = response.body
+            expect(comments).toEqual({comments: []})
+        })
+    })
+    })

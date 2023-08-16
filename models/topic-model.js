@@ -43,5 +43,11 @@ ORDER BY
   })
 }
 
+const fetchCommentsByArticle = (article_id) =>{
+  return db.query("SELECT * FROM COMMENTS WHERE article_id = $1 ORDER BY created_at DESC;", [article_id]).then(({rows})=>{
+    return rows;
+  })
+}
 
-module.exports = { fetchAllTopics, fetchArticleByID, fetchAllArticles};
+
+module.exports = { fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle};
