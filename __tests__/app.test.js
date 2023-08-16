@@ -109,14 +109,10 @@ describe("GET /api/articles/:article_id", ()=>{
 })
 
 describe("GET /api/articles", ()=>{
-    test("200: responds with a status of 200", ()=>{
-        return request(app).get("/api/articles").expect(200).then((response)=>{
-            expect(response.status).toBe(200)
-        })
-    })
     test("200: responds with all articles, with the following properties: author, title, article_id, topic, created_at, votes, article_img_url, comment_count", ()=>{
-        return request(app).get("/api/articles").then((response)=>{
+        return request(app).get("/api/articles").expect(200).then((response)=>{
             const articles = response.body.articles
+            expect(articles.length).toBeGreaterThan(0)
             articles.forEach((article) => {
                 expect(article).toHaveProperty("author")
                 expect(article).toHaveProperty("title")
@@ -133,15 +129,7 @@ describe("GET /api/articles", ()=>{
     test("200: articles are ordered in descending order by created_at", ()=>{
         return request(app).get("/api/articles").then((response)=>{
             const articles = response.body.articles
-            const timestampArray = articles.map(article => new Date(article.created_at).getTime())
-            const isSorted = timestampArray.every((current, index) => {
-              if (index === 0) {
-                return true
-              }
-              const previous = timestampArray[index - 1]
-              return current <= previous
-            });
-            expect(isSorted).toBe(true);
+            expect(articles).toBeSortedBy("created_at", {descending: true})
         })
     })
 })
