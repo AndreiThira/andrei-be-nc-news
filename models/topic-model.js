@@ -65,6 +65,30 @@ const fetchCommentsByArticle = (article_id) => {
     });
 };
 
+const fetchPostCommentByArticle = (username, body, article_ID) =>{
+  if(!username || !body){
+    return Promise.reject({ status: 400, message: "Please enter a username and body" })
+  } else {
 
 
-module.exports = { fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle};
+return db.query("SELECT username FROM users WHERE username = $1;", [username]).then((results)=>{
+  if (results.rows.length === 0){
+    return Promise.reject({status:400, message: "No user exists with this username" })
+  } else {
+    
+    const currentTime = new Date().toISOString();
+    const query = "INSERT INTO comments (author, body, votes, article_id) VALUES ($1, $2, $3, $4) RETURNING *;"
+    const values = [username, body, 0, article_ID]
+
+    return db.query(query, values).then((result)=>{
+      console.log(result)
+      return result.rows
+    }).catch(err =>{
+      throw err
+    })
+  }
+})
+}}
+
+
+module.exports = { fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle, fetchPostCommentByArticle};
