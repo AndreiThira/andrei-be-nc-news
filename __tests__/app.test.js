@@ -133,3 +133,42 @@ describe("GET /api/articles", ()=>{
         })
     })
 })
+
+describe("GET /api/articles/:article_id/comments", ()=>{
+    test("200: responds with all comments of the specified article, with the following properties:comment_id, votes, created_at, author, body, article_id", ()=>{
+        return request(app).get("/api/articles/1/comments").expect(200).then((response)=>{
+            const comments = response.body.comments
+            expect(comments.length).toBeGreaterThan(0)
+            comments.forEach((comment) => {
+                expect(comment).toHaveProperty("comment_id")
+                expect(comment).toHaveProperty("votes")
+                expect(comment).toHaveProperty("author");
+                expect(comment).toHaveProperty("body")
+                expect(comment).toHaveProperty("created_at");
+                expect(comment).toHaveProperty("article_id")
+            });
+        })
+        })
+    test("200: comments are ordered by created_at, with the most recent first ", ()=>{
+        return request(app).get("/api/articles/1/comments").expect(200).then((response)=>{
+            const comments = response.body.comments
+            expect(comments).toBeSortedBy("created_at", {descending:true})
+        })
+    }) 
+    test("200: Responds with an empty array if there are no comments for the article", ()=>{
+        return request(app).get("/api/articles/2/comments").expect(200).then((response)=>{
+            const comments = response.body
+            expect(comments).toEqual({comments: []})
+        })
+    })
+    test("400: responds with an error message when passed an invalid article ID", ()=>{
+        return request(app).get("/api/articles/banana/comments").expect(400).then((response)=>{
+            expect(response.body).toEqual({message: "Invalid Article ID"})
+        })
+    })
+    test("404: responds with an error message when passed a valid, but non existent article ID", ()=>{
+        return request(app).get("/api/articles/123123/comments").expect(404).then((response)=>{
+            expect(response.body).toEqual({message: "Article not found"})
+        })
+    })
+    })
