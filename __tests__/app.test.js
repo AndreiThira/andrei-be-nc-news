@@ -13,7 +13,6 @@ beforeEach(() => {
   return seed(testdata);
 });
 
-
 describe("app", () => {
   describe("/api/topics", () => {
     test("200: responds with a status of 200", () => {
@@ -132,7 +131,7 @@ describe("GET /api/articles/:article_id", () => {
       .get("/api/articles/banana")
       .expect(400)
       .then((response) => {
-        expect(response.body).toEqual({ message: "Invalid Article ID" });
+        expect(response.body).toEqual({ message: "Bad Request" });
       });
   });
   test("404: responds with an error message when passed a valid, but non existent article ID", () => {
@@ -217,7 +216,7 @@ describe("GET /api/articles/:article_id/comments", () => {
       .get("/api/articles/banana/comments")
       .expect(400)
       .then((response) => {
-        expect(response.body).toEqual({ message: "Invalid Article ID" });
+        expect(response.body).toEqual({ message: "Bad Request" });
       });
   });
   test("404: responds with an error message when passed a valid, but non existent article ID", () => {
@@ -287,4 +286,59 @@ describe("POST /api/articles/:article_id/comments", () => {
         });
       });
   });
+});
+
+describe("PATCH /api/articles/:article_id", () => {
+  test("200: Modifies and returns the article", () => {
+    const newRequest = {
+      inc_votes: 12,
+    };
+    return request(app)
+      .patch("/api/articles/3")
+      .send(newRequest)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.article).toEqual([
+          {
+            article_id: 3,
+            article_img_url:
+              "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+            author: "icellusedkars",
+            body: "some gifs",
+            created_at: "2020-11-03T09:12:00.000Z",
+            title: "Eight pug gifs that remind me of mitch",
+            topic: "mitch",
+            votes: 12,
+          },
+        ]);
+      });
+  });
+  test("400: responds with an error message when passed an invalid article ID", () => {
+    return request(app)
+      .patch("/api/articles/banana")
+      .expect(400)
+      .then((response) => {
+        expect(response.body).toEqual({ message: "Bad Request" });
+      });
+  });
+  test("404: responds with an error message when passed a valid, but non existent article ID", () => {
+    return request(app)
+      .patch("/api/articles/123123")
+      .expect(404)
+      .then((response) => {
+        expect(response.body).toEqual({ message: "Not Found" });
+      });
+  });
+  test("400: responds with an error message when request body receives invalid data in inc_votes",()=>{
+    const newRequest = {
+      inc_votes: "beans",
+    }
+    return request(app)
+    .patch("/api/articles/3")
+    .send(newRequest)
+    .expect(400)
+    .then((response)=>{
+      expect(response.body).toEqual({message: "Bad Request"})
+    })
+  })
 });

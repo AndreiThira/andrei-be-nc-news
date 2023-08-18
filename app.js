@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const {getAllTopics, getAllEndpoints, getArticleByID, getAllArticles, getCommentsByArticle, postCommentByArticle} = require("./controllers/topics-controller");
+const {getAllTopics, getAllEndpoints, getArticleByID, getAllArticles, getCommentsByArticle, postCommentByArticle, patchArticleByID} = require("./controllers/topics-controller");
 
 app.use(express.json())
 
@@ -10,6 +10,7 @@ app.get("/api/articles/:article_id", getArticleByID)
 app.get("/api/articles", getAllArticles)
 app.get("/api/articles/:article_id/comments", getCommentsByArticle)
 app.post("/api/articles/:article_id/comments", postCommentByArticle)
+app.patch("/api/articles/:article_id", patchArticleByID)
 
 app.use((err, req, res, next) => {
     if (err.status) {
@@ -19,7 +20,7 @@ app.use((err, req, res, next) => {
 
 app.use((err,request, response, next)=>{
     if (err.code === "22P02"){
-        response.status(400).send({message: "Invalid Article ID"})
+        response.status(400).send({message: "Bad Request"})
     } else if (err.code === "23502"){
         response.status(404).send({message: "Please enter a username and body"})
     } else{
@@ -28,6 +29,7 @@ app.use((err,request, response, next)=>{
 })
 
 app.use((err, request, response, next)=>{
+    console.log(err)
     response.status(500).send({message: "Internal Server Error"})
 })
 
