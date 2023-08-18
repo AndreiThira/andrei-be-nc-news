@@ -20,7 +20,9 @@ app.use((err, req, res, next) => {
 app.use((err,request, response, next)=>{
     if (err.code === "22P02"){
         response.status(400).send({message: "Invalid Article ID"})
-    } else {
+    } else if (err.code === "23502"){
+        response.status(404).send({message: "Please enter a username and body"})
+    } else{
         next(err)
     }
 })

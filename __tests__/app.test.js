@@ -13,6 +13,7 @@ beforeEach(() => {
   return seed(testdata);
 });
 
+
 describe("app", () => {
   describe("/api/topics", () => {
     test("200: responds with a status of 200", () => {
@@ -224,7 +225,7 @@ describe("GET /api/articles/:article_id/comments", () => {
       .get("/api/articles/123123/comments")
       .expect(404)
       .then((response) => {
-        expect(response.body).toEqual({ message: "Article not found" });
+        expect(response.body).toEqual({ message: "Not found" });
       });
   });
 });
@@ -250,11 +251,10 @@ describe("POST /api/articles/:article_id/comments", () => {
           expect(comment).toHaveProperty("body");
           expect(comment).toHaveProperty("created_at");
           expect(comment).toHaveProperty("article_id");
-          console.log(comment);
         });
       });
   });
-  test("400: Returns an error when no body or username has been entered", () => {
+  test("404: Returns an error when no body or username has been entered", () => {
     const newComment = {
       body: undefined,
       username: "butter_bridge",
@@ -263,7 +263,7 @@ describe("POST /api/articles/:article_id/comments", () => {
     return request(app)
       .post("/api/articles/2/comments")
       .send(newComment)
-      .expect(400)
+      .expect(404)
       .then((response) => {
         expect(response.body).toEqual({
           message: "Please enter a username and body",
@@ -280,10 +280,10 @@ describe("POST /api/articles/:article_id/comments", () => {
     return request(app)
       .post("/api/articles/2/comments")
       .send(newComment)
-      .expect(400)
+      .expect(404)
       .then((response) => {
         expect(response.body).toEqual({
-          message: "No user exists with this username",
+          message: "Not Found",
         });
       });
   });

@@ -52,7 +52,8 @@ const postCommentByArticle = (request, reponse, next)=>{
     fetchPostCommentByArticle(username, body, article_ID).then((result)=>{
         reponse.status(201).send({comment: result})
     })
-    .catch(next)
+    
+  .catch(next)
 }
 
 
