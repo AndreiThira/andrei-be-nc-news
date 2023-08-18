@@ -72,9 +72,21 @@ const fetchPostCommentByArticle = (username, body, article_ID, next) => {
     })
     .catch(next)
 };
+
+const fetchPatchArticleByID = (newVotes, article_ID, next) =>{
+    return checkExists("articles", "article_id", article_ID)
+    .then(() => {
+      const query = "UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *;"
+      const values = [newVotes, article_ID]
+      return db.query(query, values).then((comment)=>{
+        return comment.rows
+      })
+})
+
+}
   
 
 
 
 
-module.exports = { fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle, fetchPostCommentByArticle};
+module.exports = { fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle, fetchPostCommentByArticle, fetchPatchArticleByID};

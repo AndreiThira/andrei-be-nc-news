@@ -1,5 +1,5 @@
 
-const {fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle, fetchPostCommentByArticle} = require("../models/topic-model")
+const {fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle, fetchPostCommentByArticle, fetchPatchArticleByID} = require("../models/topic-model")
 const fs = require("fs/promises");
 
 const getAllTopics = (request, response, next) =>{
@@ -46,15 +46,23 @@ const fetchAllEndpoints = () => {
     });
   };
   
-const postCommentByArticle = (request, reponse, next)=>{
+const postCommentByArticle = (request, response, next)=>{
     const article_ID = request.params.article_id
     const { username, body } = request.body
     fetchPostCommentByArticle(username, body, article_ID).then((result)=>{
-        reponse.status(201).send({comment: result})
+        response.status(201).send({comment: result})
     })
-    
   .catch(next)
 }
 
+const patchArticleByID = (request, response, next)=>{
+    const article_ID = request.params.article_id
+    const newVotes = request.body.inc_votes
+    fetchPatchArticleByID(newVotes, article_ID).then((results)=>{
+        response.status(200).send({article: results})
+    })
+    .catch(next)
+}
 
-module.exports = {getAllTopics, getAllEndpoints, getArticleByID, getAllArticles, getCommentsByArticle, postCommentByArticle}
+
+module.exports = {getAllTopics, getAllEndpoints, getArticleByID, getAllArticles, getCommentsByArticle, postCommentByArticle, patchArticleByID}
