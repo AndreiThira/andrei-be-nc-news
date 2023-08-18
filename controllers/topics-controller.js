@@ -1,5 +1,5 @@
 
-const {fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle} = require("../models/topic-model")
+const {fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle, fetchPostCommentByArticle} = require("../models/topic-model")
 const fs = require("fs/promises");
 
 const getAllTopics = (request, response, next) =>{
@@ -45,7 +45,16 @@ const fetchAllEndpoints = () => {
       return JSON.parse(preparedEndpoints)
     });
   };
+  
+const postCommentByArticle = (request, reponse, next)=>{
+    const article_ID = request.params.article_id
+    const { username, body } = request.body
+    fetchPostCommentByArticle(username, body, article_ID).then((result)=>{
+        reponse.status(201).send({comment: result})
+    })
+    
+  .catch(next)
+}
 
 
-
-module.exports = {getAllTopics, getAllEndpoints, getArticleByID, getAllArticles, getCommentsByArticle}
+module.exports = {getAllTopics, getAllEndpoints, getArticleByID, getAllArticles, getCommentsByArticle, postCommentByArticle}

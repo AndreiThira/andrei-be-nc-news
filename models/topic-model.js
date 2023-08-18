@@ -1,5 +1,6 @@
 const db = require("../db/connection");
 const endpoints = require("../endpoints.json");
+const {checkExists} = require("../db/seeds/utils")
 
 
 const fetchAllTopics = () => {
@@ -48,23 +49,32 @@ const fetchAllArticles = () => {
 };
 
 
-const fetchCommentsByArticle = (article_id) => {
-  return db.query("SELECT COUNT(*) FROM articles WHERE article_id = $1;", [article_id])
-    .then(articleExistsResult => {
-      if (articleExistsResult.rows[0].count === '0') {
-        return Promise.reject({ status: 404, message: "Article not found" })
-      }
-
-      return db.query("SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;", [article_id])
-    })
-    .then(commentsResult => {
+const fetchCommentsByArticle = (article_id, next) => {
+  return checkExists("articles", "article_id", article_id).then(()=>{
+    return db.query("SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;", [article_id])
+  .then(commentsResult => {
       return commentsResult.rows
     })
-    .catch(err => {
-      throw err
-    });
+    .catch(next)})
 };
 
+const fetchPostCommentByArticle = (username, body, article_ID, next) => {
+  return checkExists("users", "username", username)
+    .then(() => {
+      const query = "INSERT INTO comments (author, body, votes, article_id) VALUES ($1, $2, $3, $4) RETURNING *;"
+      const values = [username, body, 0, article_ID];
+
+      return db.query(query, values)
+        .then(result => {
+          return result.rows
+        })
+        .catch(next)
+    })
+    .catch(next)
+};
+  
 
 
-module.exports = { fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle};
+
+
+module.exports = { fetchAllTopics, fetchArticleByID, fetchAllArticles, fetchCommentsByArticle, fetchPostCommentByArticle};
