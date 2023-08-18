@@ -81,9 +81,8 @@ const fetchPatchArticleByID = (newVotes, article_ID, next) =>{
       return db.query(query, values).then((comment)=>{
         return comment.rows
       })
-      .catch(next)
 })
-.catch(next)
+
 }
   
 
