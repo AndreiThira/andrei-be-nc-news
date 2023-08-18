@@ -225,7 +225,7 @@ describe("GET /api/articles/:article_id/comments", () => {
       .get("/api/articles/123123/comments")
       .expect(404)
       .then((response) => {
-        expect(response.body).toEqual({ message: "Not found" });
+        expect(response.body).toEqual({ message: "Not Found" });
       });
   });
 });
