@@ -9,7 +9,6 @@ Developed a feature-rich RESTful API serving articles, topics, and user-generate
 2. [Deployment](#Deployment)
 3. [Installation Guide](#Installation)
 4. [API Documentation](#APIDocs)
-5. [Acknowledgments](#Acknowledgments)
 
 ***
 
@@ -18,8 +17,10 @@ Developed a feature-rich RESTful API serving articles, topics, and user-generate
 - **PostgreSQL:** A powerful and reliable relational database used to store and manage data in the project. 
 - **CORS:** Middleware used to handle Cross-Origin Resource Sharing, allowing for secure communication between the client and the server.
 - **dotenv:** A utility for managing environment variables, enhancing the configuration of the project.
-
-See [Acknowledgments](#Acknowledgments) for additional libraries used.
+- **Jest:** A widely-used JavaScript testing framework for ensuring the reliability and correctness of the codebase.
+- **Jest-extended:** An extension for Jest that provides additional testing utilities, further enhancing the testing capabilities.
+- **supertest:** A testing library for making HTTP requests during testing, aiding in the comprehensive testing of API endpoints. 
+- **husky:** A tool for setting up Git hooks to automate and improve various aspects of the development workflow.
 
 ***
 
@@ -195,10 +196,3 @@ In order to run the API locally:
   ]
 }
 ```
-***
-
-### Acknowledgments <a name="Acknowledgments"></a>
-- **Jest:** A widely-used JavaScript testing framework for ensuring the reliability and correctness of the codebase.
-- **Jest-extended:** An extension for Jest that provides additional testing utilities, further enhancing the testing capabilities.
-- **supertest:** A testing library for making HTTP requests during testing, aiding in the comprehensive testing of API endpoints. 
-- **husky:** A tool for setting up Git hooks to automate and improve various aspects of the development workflow.
