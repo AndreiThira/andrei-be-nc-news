@@ -34,6 +34,18 @@ For my database needs, I rely on [ElephantSQL](https://www.elephantsql.com/), a 
 ***
 
 ### Installation guide <a name="Installation"></a>
+1. Fork and clone this repository.
+2. Open the directory in VS.
+3. In the terminal, run ```npm i``` in order to install all the required dependencies.
+4. In order to connect to the relavant database, you need to define the environmental variable PGDATABASE:
+    1. In the root folder, create a .env.development and a .env.test file. If you wish to use a hosted database which is ready for production, you can also create a .env.production file.
+    2. Inside .env.development, paste ```PGDATABASE=nc_news```
+    3. Inside .env.test, paste ```PGDATABASE=nc_news_test```
+   
+   The values of PGDATABASE can be changed according to the name of your desired database. If you wish to add a hosted database, set the value of PGDATABASE to the link provided by your hosting provider.   
+6. In the terminal, run the command ```npm run seed``` to seed the database.
+7. In the terminal, enter the command ```npm start``` to run the server. By default, the port when running the server is 9090, this can be changed in the **listen.js** module. 
+8. Test by using an API client such as [Insomnia](https://insomnia.rest/) and execute a GET request at http://localhost:9090/api where a response should be served with a list of available endpoints.
 
 ### Usage <a name="Usage"></a>
 
@@ -191,8 +203,6 @@ For my database needs, I rely on [ElephantSQL](https://www.elephantsql.com/), a 
 - **supertest:** A testing library for making HTTP requests during testing, aiding in the comprehensive testing of API endpoints. 
 - **husky:** A tool for setting up Git hooks to automate and improve various aspects of the development workflow.
 
-// Setting up the environment packages
-In order to connect to the relavant database, you need to define the environmental variable PGDATABASE. In order to do so, please follow the provided instructions:
 
 1. Create a file called **.env.REPLACENAMEHERE** in the root folder for every seperate database connection you wish to have - in this case we will use .env.development and .dev.test
 2. Inside each file, write **PGDATABASE=name_of_your_database**, replacing the filler text with the respective name of the database you wish to connect to.
