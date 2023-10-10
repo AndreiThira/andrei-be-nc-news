@@ -25,11 +25,11 @@ See [Acknowledgments](#Acknowledgments) for additional libraries used.
 ***
 
 ### Deployment <a name="Deployment"></a>
-<p>Render for API Hosting<br>
-I have deployed the RESTful API using [Render](https://render.com/), a powerful platform for hosting web applications. This ensures that our API is highly available and scales effortlessly to meet user demand.You can access our API [here](https://nc-news-sem6.onrender.com/api).</p>
+**Render for API Hosting**    
+I have deployed the RESTful API using [Render](https://render.com/), a powerful platform for hosting web applications. This ensures that our API is highly available and scales effortlessly to meet user demand.You can access our API [here](https://nc-news-sem6.onrender.com/api).
 
-<p>Database Instance with ElephantSQL<br>
-For my database needs, I rely on [ElephantSQL](https://www.elephantsql.com/), a managed PostgreSQL database service. This hosted database instance ensures data durability, reliability, and scalability.</p>
+**Database Instance with ElephantSQL**  
+For my database needs, I rely on [ElephantSQL](https://www.elephantsql.com/), a managed PostgreSQL database service. This hosted database instance ensures data durability, reliability, and scalability.
 
 ***
 
