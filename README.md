@@ -15,7 +15,7 @@ Developed a feature-rich RESTful API serving articles, topics, and user-generate
 
 ***
 
-### Technologies Used{#TechUsed}
+### Technologies Used <a name="TechUsed"></a>
 - **Express.js:** The primary backend framework for building the RESTful API. 
 - **PostgreSQL:** A powerful and reliable relational database used to store and manage data in the project. 
 - **CORS:** Middleware used to handle Cross-Origin Resource Sharing, allowing for secure communication between the client and the server.
@@ -23,7 +23,9 @@ Developed a feature-rich RESTful API serving articles, topics, and user-generate
 
 See [Acknowledgments](#Acknowledgments) for additional libraries used.
 
-### Deployment{#Deployment}
+***
+
+### Deployment <a name="Deployment"></a>
 Render for API Hosting
 We have deployed our RESTful API using [Render](https://render.com/), a powerful platform for hosting web applications. This ensures that our API is highly available and scales effortlessly to meet user demand.
 You can access our API [here](https://nc-news-sem6.onrender.com/api).
@@ -31,11 +33,13 @@ You can access our API [here](https://nc-news-sem6.onrender.com/api).
 Database Instance with ElephantSQL
 For our database needs, we rely on [ElephantSQL](https://www.elephantsql.com/), a managed PostgreSQL database service. This hosted database instance ensures data durability, reliability, and scalability.
 
-### Installation guide{#Installation}
+***
 
-### Usage{#Usage}
+### Installation guide <a name="Installation"></a>
 
-### API Documentation{#APIDocs}
+### Usage <a name="Usage"></a>
+
+### API Documentation <a name="APIDocs"></a>
 
 #### `GET /api`
 
@@ -64,7 +68,7 @@ For our database needs, we rely on [ElephantSQL](https://www.elephantsql.com/), 
 }
 ```
 
-### Acknowledgments{#Acknowledgments}
+### Acknowledgments <a name="Acknowledgments"></a>
 - **Jest:** A widely-used JavaScript testing framework for ensuring the reliability and correctness of the codebase.
 - **Jest-extended:** An extension for Jest that provides additional testing utilities, further enhancing the testing capabilities.
 - **supertest:** A testing library for making HTTP requests during testing, aiding in the comprehensive testing of API endpoints. 
