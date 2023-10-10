@@ -4,7 +4,6 @@
 Developed a feature-rich RESTful API serving articles, topics, and user-generated comments. This API empowers users with comprehensive access to content, allowing them to effortlessly explore articles, discover topics, and participate in vibrant discussions. Key functionalities include seamless GET requests for reading articles and topics, as well as interactive features like comment posting and voting via PATCH requests.
 
 
-
 ## Table of Contents
 1. [Technologies Used](#TechUsed)
 2. [Deployment](#Deployment)
@@ -26,12 +25,11 @@ See [Acknowledgments](#Acknowledgments) for additional libraries used.
 ***
 
 ### Deployment <a name="Deployment"></a>
-Render for API Hosting
-We have deployed our RESTful API using [Render](https://render.com/), a powerful platform for hosting web applications. This ensures that our API is highly available and scales effortlessly to meet user demand.
-You can access our API [here](https://nc-news-sem6.onrender.com/api).
+<p>Render for API Hosting<br>
+I have deployed the RESTful API using [Render](https://render.com/), a powerful platform for hosting web applications. This ensures that our API is highly available and scales effortlessly to meet user demand.You can access our API [here](https://nc-news-sem6.onrender.com/api).</p>
 
-Database Instance with ElephantSQL
-For our database needs, we rely on [ElephantSQL](https://www.elephantsql.com/), a managed PostgreSQL database service. This hosted database instance ensures data durability, reliability, and scalability.
+<p>Database Instance with ElephantSQL<br>
+For my database needs, I rely on [ElephantSQL](https://www.elephantsql.com/), a managed PostgreSQL database service. This hosted database instance ensures data durability, reliability, and scalability.</p>
 
 ***
 
@@ -67,6 +65,125 @@ For our database needs, we rely on [ElephantSQL](https://www.elephantsql.com/), 
   ]
 }
 ```
+
+#### `GET /api/articles`
+
+- **Description:** Serves an array of all articles.
+- **Example Response:**
+```json
+{
+  "articles": [
+    {
+      "title": "Seafood substitutions are increasing",
+      "topic": "cooking",
+      "author": "weegembump",
+      "body": "Text from the article..",
+      "created_at": "2018-05-30T15:59:13.341Z",
+      "votes": 0,
+      "comment_count": 6
+    }
+  ]
+}
+```
+
+#### `GET /api/articles/:article_id`
+
+- **Description:** Serves the article with the corresponding `article_id`.
+- **Example Response:**
+
+```json
+{
+  "article": [
+    {
+      "article_id": 3,
+      "title": "Eight pug gifs that remind me of mitch",
+      "topic": "mitch",
+      "author": "icellusedkars",
+      "body": "some gifs",
+      "created_at": "2020-11-03T09:12:00.000Z",
+      "votes": 0,
+      "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+    }
+  ]
+}
+```
+
+#### `GET /api/articles/:article_id/comments`
+
+- **Description:** Serves all comments for the corresponding `article_id`, sorted by most recent.
+- **Example Response:**
+
+```json
+{
+  "comments": [
+    {
+      "body": "This morning, I showered for nine minutes.",
+      "votes": 16,
+      "author": "butter_bridge",
+      "article_id": 1,
+      "created_at": "2020-12-03T09:12:00.000Z",
+      "comment_id": 12
+    }
+  ]
+}
+```
+
+#### `POST /api/articles/:article_id/comments`
+
+- **Description:** Allows the client to post a comment to a specific article, then serves the new comment.
+- **Example Input:**
+
+```json
+{
+  "body": "This morning, I showered for nine minutes.",
+  "user": "butter_bridge"
+}
+```
+- **Example Output:**
+
+```json
+{
+  "comment": [
+    {
+      "body": "This morning, I showered for nine minutes.",
+      "votes": 16,
+      "author": "butter_bridge",
+      "article_id": 1,
+      "created_at": "2020-12-03T09:12:00.000Z",
+      "comment_id": 12
+    }
+  ]
+}
+```
+
+#### `PATCH /api/articles/:article_id`
+
+- **Description:** Allows the client to update votes by a certain value.
+- **Example Input:**
+
+```json
+{
+  "inc_votes": 12
+}
+```
+- **Example Output:**
+```json
+{
+  "article": [
+    {
+      "article_id": 3,
+      "title": "Eight pug gifs that remind me of mitch",
+      "topic": "mitch",
+      "author": "icellusedkars",
+      "body": "some gifs",
+      "created_at": "2020-11-03T09:12:00.000Z",
+      "votes": 12,
+      "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+    }
+  ]
+}
+```
+***
 
 ### Acknowledgments <a name="Acknowledgments"></a>
 - **Jest:** A widely-used JavaScript testing framework for ensuring the reliability and correctness of the codebase.
